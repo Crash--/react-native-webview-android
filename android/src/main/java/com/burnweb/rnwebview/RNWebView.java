@@ -18,6 +18,7 @@ import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.events.EventDispatcher;
+import com.burnweb.rnwebview.RNWebViewVideo;
 
 class RNWebView extends WebView implements LifecycleEventListener {
 
@@ -73,6 +74,9 @@ class RNWebView extends WebView implements LifecycleEventListener {
         public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
             return getModule().startFileChooserIntent(filePathCallback, fileChooserParams.createIntent());
         }
+
+
+
     }
 
     protected class GeoWebChromeClient extends CustomWebChromeClient {
@@ -81,6 +85,8 @@ class RNWebView extends WebView implements LifecycleEventListener {
             callback.invoke(origin, true, false);
         }
     }
+
+
 
     public RNWebView(RNWebViewManager viewManager, ThemedReactContext reactContext) {
         super(reactContext);
@@ -105,7 +111,7 @@ class RNWebView extends WebView implements LifecycleEventListener {
         }
 
         this.setWebViewClient(new EventWebClient());
-        this.setWebChromeClient(getCustomClient());
+        this.setWebChromeClient(new RNWebViewVideo(reactContext.getCurrentActivity(), this));
     }
 
     public void setCharset(String charset) {
